@@ -50,8 +50,7 @@
                     <td>Bottone aggiungi autore</td>
                      <td><button id="aggiungi" >Aggiungi</button></td> 
                 </tr>
-        @if (Model != null && Model.Autori != null)  
-            {  
+       
                
                 <tr >  
                     <td style="font-size: 12px; padding-left: 2px" id="listAutori">  
@@ -60,13 +59,13 @@
                 </tr>  
                  
               
-            }  
+             
             </td>
 
               <div class="form-group">
                 <label for="autori">Scegli Autori</label>
                 <select name="AutoreData" id="autoriPresenti" multiple>
-                    @foreach (var autore in ViewData["listaAutoriAll"] as List<Autore>)
+                    @foreach (var autore in ViewData["AutoriAll"] as List<Autore>)
                     {
                         <option value="@autore.Nome,@autore.Cognome,@autore.DataNascita">@autore.Nome @autore.Cognome</option>
                     }
@@ -82,6 +81,7 @@
 }
 
 <script>
+     
        let currIndex = 0;
          const pulsante = document.getElementById("aggiungi");
          document.getElementById("aggiungi").addEventListener("click",

@@ -54,15 +54,15 @@ namespace csharp_bibliotecaMvc.Controllers
         // GET: Libroes/Create
         public IActionResult Create()
         {
-            Libro myLibro = new Libro();
-            myLibro.Autori = new List<Autore>();
-            myLibro.Autori.Add(new csharp_bibliotecaMvc.Models.Autore { Nome = "Dante", Cognome = "Alighieri", DataNascita = DateTime.Parse("26/04/1340") });
-            myLibro.Autori.Add(new csharp_bibliotecaMvc.Models.Autore { Nome = "Giorgio", Cognome = "Bocca", DataNascita = DateTime.Parse("26/04/1933") });
+            //Libro myLibro = new Libro();
+            //myLibro.Autori = new List<Autore>();
+            //myLibro.Autori.Add(new csharp_bibliotecaMvc.Models.Autore { Nome = "Dante", Cognome = "Alighieri", DataNascita = DateTime.Parse("26/04/1340") });
+            //myLibro.Autori.Add(new csharp_bibliotecaMvc.Models.Autore { Nome = "Giorgio", Cognome = "Bocca", DataNascita = DateTime.Parse("26/04/1933") });
 
 
-            ViewData["listaAutoriAll"] = _context.Autori.ToList<Autore>();
+            ViewData["AutoriAll"] = _context.Autori.ToList<Autore>();
 
-            return View(myLibro);
+            return View();
         }
 
         // GET: Libroes/Create
@@ -84,10 +84,32 @@ namespace csharp_bibliotecaMvc.Controllers
             
             if (ModelState.IsValid)
             {
-                string str = Request.Form["AutoreData"];
-                string[] words = str.Split(',');
+
+                string[] str = Request.Form["AutoreData"] ;
+
+                for(int i = 0; i < str.Length; i++)
+                {
+                    string[] words = str[i].Split(',');
+                    Autore nuovoAutore = new Autore() { Nome = words[0], Cognome = words[1], DataNascita = DateTime.Parse(words[2]) };
+                    if (_context.Autori.Contains(nuovoAutore)){
+                        libro.Autori.Add(nuovoAutore);
+                        _context.Autori.Update(nuovoAutore);
+                    }
+                    else
+                    {
+                        _context.Autori.Add(nuovoAutore);
+                    }
+                   
+                }
                
-               Autore nuovoAutore = new Autore() { Nome = words[0], Cognome=words[1] , DataNascita=DateTime.Parse(words[2])};
+                
+               
+                
+               
+                
+                    
+                
+                
                    
                    
                 
