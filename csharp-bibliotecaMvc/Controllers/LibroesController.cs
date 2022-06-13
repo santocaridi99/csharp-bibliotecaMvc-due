@@ -59,6 +59,9 @@ namespace csharp_bibliotecaMvc.Controllers
             myLibro.Autori.Add(new csharp_bibliotecaMvc.Models.Autore { Nome = "Dante", Cognome = "Alighieri", DataNascita = DateTime.Parse("26/04/1340") });
             myLibro.Autori.Add(new csharp_bibliotecaMvc.Models.Autore { Nome = "Giorgio", Cognome = "Bocca", DataNascita = DateTime.Parse("26/04/1933") });
 
+
+            ViewData["listaAutoriAll"] = _context.Autori.ToList<Autore>();
+
             return View(myLibro);
         }
 
@@ -78,8 +81,16 @@ namespace csharp_bibliotecaMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Libro libro)
         {
+            
             if (ModelState.IsValid)
             {
+                string str = Request.Form["AutoreData"];
+                string[] words = str.Split(',');
+               
+               Autore nuovoAutore = new Autore() { Nome = words[0], Cognome=words[1] , DataNascita=DateTime.Parse(words[2])};
+                   
+                   
+                
                 _context.Add(libro);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

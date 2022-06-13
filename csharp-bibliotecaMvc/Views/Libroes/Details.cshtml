@@ -6,7 +6,7 @@
 
 <h1>Details</h1>
 
-@*<div>
+<div>
     <h4>Libro</h4>
     <hr />
     <dl class="row">
@@ -45,7 +45,13 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.AutoreName)
+                            @Html.DisplayFor(modelItem => item.Nome)
+                        </td>
+                         <td>
+                            @Html.DisplayFor(modelItem => item.Cognome)
+                        </td>
+                         <td>
+                            @Html.DisplayFor(modelItem => item.DataNascita)
                         </td>
                     </tr>
                 }
@@ -83,7 +89,7 @@
         
 
     </dl>
-</div>*@
+</div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.libroID">Edit</a> |
     <a asp-action="Index">Back to List</a>

@@ -18,6 +18,12 @@
                 @Html.TextBoxFor(m => m.Titolo)
             </td>
         </tr>
+         <tr>
+            <td><p style="color:red;font-weight: bold;">Descrizione: </p></td>
+            <td>
+                @Html.TextBoxFor(m => m.Descrizione)
+            </td>
+        </tr>
         <tr>
             <td><p style="color:red;font-weight: bold;">Scaffale:</p> </td>
             <td>
@@ -28,32 +34,66 @@
             <td><p style="color:red;font-weight: bold;">Stato: </p></td>
             <td>
                 @Html.DropDownListFor(m => m.Stato, new List<SelectListItem>
-                { new SelectListItem{Text="Libero", Value="Libero"},
-                    new SelectListItem{Text="In prestito", Value="InPrestito"}}, "Please select")
+                { new SelectListItem{Text="Libero", Value="Disponibile"},
+                    new SelectListItem{Text="In prestito", Value="Prestito"}, new SelectListItem{Text="non disponibile", Value="NonDisponibile"}}, "Please select")
             </td>
         </tr>
         <tr>
             <td><p style="color:red;font-weight: bold;">Lista autori</p></td>
             <td>
+
+               @* aggiungi il pulsante Add autore*@
+              @* il bottone fa partire con il prevent_default che crea un pezzettino
+               di html*@
+
+                <tr>
+                    <td>Bottone aggiungi autore</td>
+                     <td><button id="aggiungi" >Aggiungi</button></td> 
+                </tr>
         @if (Model != null && Model.Autori != null)  
             {  
-                for (int i = 0; i < Model.Autori.Count(); i++)  
-                {  
+               
                 <tr >  
-                    <td style="font-size: 12px; padding-left: 2px">  
-                        @Html.TextBoxFor(m => m.Autori[i].Cognome);
-                        @Html.TextBoxFor(m => m.Autori[i].Nome);
-                        @Html.TextBoxFor(m => m.Autori[i].DataNascita);
+                    <td style="font-size: 12px; padding-left: 2px" id="listAutori">  
+                      
                     </td>  
                 </tr>  
                  
-                }  
+              
             }  
             </td>
+
+              <div class="form-group">
+                <label for="autori">Scegli Autori</label>
+                <select name="AutoreData" id="autoriPresenti" multiple>
+                    @foreach (var autore in ViewData["listaAutoriAll"] as List<Autore>)
+                    {
+                        <option value="@autore.Nome,@autore.Cognome,@autore.DataNascita">@autore.Nome @autore.Cognome</option>
+                    }
+                </select>
+            </div>
         </tr>
+
         <tr>
             <td></td>
             <td><input type="submit" value="Submit"/></td>
         </tr>
     </table>
 }
+
+<script>
+       let currIndex = 0;
+         const pulsante = document.getElementById("aggiungi");
+         document.getElementById("aggiungi").addEventListener("click",
+            () =>{
+                event.preventDefault();
+                const listAutori = document.getElementById("listAutori");
+                const tr = document.createElement("tr");
+               
+                tr.innerHTML = `<input data-val="true" data-val-required="The Cognome field is required." id="Autori_${currIndex}__Cognome" name="Autori[${currIndex}].Cognome" type="text"  />
+                        <input data-val="true" data-val-required="The Nome field is required." id="Autori_${currIndex}__Nome" name="Autori[${currIndex}].Nome" type="text" />
+                        <input data-val="true" data-val-required="The DataNascita field is required." id="Autori_${currIndex}__DataNascita" name="Autori[${currIndex}].DataNascita" type="text" value="26/04/1340 00:00:00" />` ;
+                curreIndex=currIndex+1;
+                listAutori.append(tr);
+            });
+</script>

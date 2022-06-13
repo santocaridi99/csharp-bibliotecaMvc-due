@@ -13,6 +13,8 @@ namespace csharp_bibliotecaMvc.Models
     {
         public int libroID { get; set; }
         public string Titolo { get; set; }
+
+
         public string Descrizione { get; set; }
 
         public string Scaffale { get; set; }
