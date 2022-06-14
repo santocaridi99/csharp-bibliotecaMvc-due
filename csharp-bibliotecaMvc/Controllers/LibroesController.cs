@@ -93,16 +93,27 @@ namespace csharp_bibliotecaMvc.Controllers
                 for(int i = 0; i < str.Length; i++)
                 {
                     string[] words = str[i].Split(',');
-                    Autore nuovoAutore = new Autore() { Nome = words[0], Cognome = words[1], DataNascita = DateTime.Parse(words[2]) };
-                    if (_context.Autori.Contains(nuovoAutore)){
-                        libro.Autori.Add(nuovoAutore);
-                        _context.Autori.Update(nuovoAutore);
-                    }
-                    else
-                    {
-                        _context.Autori.Add(nuovoAutore);
-                    }
+                    //Autore nuovoAutore = new Autore() { Nome = words[0], Cognome = words[1], DataNascita = DateTime.Parse(words[2]) };
+                    var cercaAutore = _context.Autori.Where(a => (a.Nome == words[0] && a.Cognome == words[1] && a.DataNascita == Convert.ToDateTime(words[2]))).First();
+                    //if (_context.Autori.Contains(nuovoAutore)){
+
+                    //    _context.Autori.Remove(nuovoAutore);
+                    //    _context.Autori.UpdateRange(nuovoAutore);
+                    //}
+                    //else
+                    //{
+                    //    _context.Autori.Add(nuovoAutore);
+                    //}
                    
+                    if(cercaAutore != null)
+                    {
+                        libro.Autori.Add(cercaAutore);
+
+                    }
+                    _context.Add(libro);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+
                 }
                
                 
@@ -116,9 +127,7 @@ namespace csharp_bibliotecaMvc.Controllers
                    
                    
                 
-                _context.Add(libro);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                
             }
             return View(libro);
         }
