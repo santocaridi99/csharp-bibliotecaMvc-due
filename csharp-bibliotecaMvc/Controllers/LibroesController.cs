@@ -86,7 +86,10 @@ namespace csharp_bibliotecaMvc.Controllers
             {
 
                 string[] str = Request.Form["AutoreData"] ;
-
+                if(libro.Autori == null)
+                {
+                    libro.Autori = new();
+                }
                 for(int i = 0; i < str.Length; i++)
                 {
                     string[] words = str[i].Split(',');
